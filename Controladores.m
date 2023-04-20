@@ -1,11 +1,5 @@
-% Definir las constantes del sistema
-Vt = 10;
-W = 3.5;
-XCG = 0.33;
-MASA = 2.5;
 
-% Obtener el modelo linealizado del UAV
-[A, B, C, D] = linmod('UAVTrim');
+
 
 % Definir las matrices de peso para el controlador LQR
 Q = diag([1 1 1 1 1]);
@@ -24,7 +18,7 @@ K_pp = place(A, B, [s1 s2]);
 K_lqr = lqr(A, B, Q, R);
 
 % Definir las condiciones iniciales y la perturbación
-X0 = [Vt, 0, 0, 0, 0]';
+X0 = [10; 0; 0; 0; 1000];
 X_pert = X0 + [-1; 0; 0; 0.05; 0];
 T_sim = 2;
 
