@@ -20,6 +20,8 @@ IX = [];
 
 [A,B,C,D]=linmod('UAVTrimh',XV,UV);
 
+disp(eig(A));
+
 
 % Definir las matrices de peso para el controlador LQR
 Q = diag([1 1 1 1 1]);
@@ -28,11 +30,13 @@ R = 1;
 % Calcular los polos deseados para el controlador por pole placement
 omega_n = 2;
 zeta = 0.7;
-s1 = -omega_n*zeta + omega_n*sqrt(1-zeta^2)*1i;
-s2 = -omega_n*zeta - omega_n*sqrt(1-zeta^2)*1i;
-s3 = -omega_n*zeta + omega_n*sqrt(1-zeta^3)*1i;
-s4 = -omega_n*zeta - omega_n*sqrt(1-zeta^3)*1i;
-s5 = -omega_n*zeta + omega_n*sqrt(1-zeta^4)*1i;
+
+
+s1 = -15 + 15i;
+s2 = -15 - 15i;
+s3 = -20 + 10i;
+s4 = -20 - 10i;
+s5 = -25;
 
 % Diseñar el controlador por pole placement
 K_pp = place(A, B, [s1, s2, s3, s4, s5]);
