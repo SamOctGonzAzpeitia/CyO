@@ -1,6 +1,4 @@
 
-
-
 % Definir las matrices de peso para el controlador LQR
 Q = diag([1 1 1 1 1]);
 R = 1;
