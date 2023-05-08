@@ -35,7 +35,7 @@ Cons_V=[altura ; altura];
 
 %Introducimos las opciones que queramos dentro de la realización del
 %algoritmo genético que utilizamos con el optimtool de matlab
-options = optimoptions('ga');
+options = optimoptions("ga");
 
 %Poblacion inicial
 options = optimoptions(options,'InitialPopulationMatrix', InitialPopulationMatrix_Data);%Qué puntos cogen al principio
