@@ -42,7 +42,7 @@ s5 = -25;
 K_pp = place(A, B, [s1, s2, s3, s4, s5]);
 
 % Diseñar el controlador por LQR
-[J,S,P]=lqr(A,B,Q,R);
+[J,S,P]=lqr()
 K_lqr = lqr(A, B, Q, R);
 
 Acl = A-(B*K_lqr);
