@@ -1,4 +1,4 @@
-
+% Samuel Octavio González Azpeitia
 
 Vt=10;
 W=3.5;
@@ -14,7 +14,7 @@ IX = [];
 
 %[x,u,y,dx] = trim('ctrl_nivel_no_lineal',xo,uo,yo,ix)
 
-
+%% Trimado y Linealizacion
 [XV, UV, Y, DX]=trim('UAVTrimh',X0,U0,Y0,IX);
 
 
@@ -22,11 +22,11 @@ IX = [];
 
 disp(eig(A));
 
-
+%% Controladores
 % Definir las matrices de peso para el controlador LQR
-Q=[10 0 0 0 0 ;...
-    0 1 0 0 0 ;...
-    0 0 10 0 0 ;...
+Q=[10 0 0 0 0 ;
+    0 1 0 0 0 ;
+    0 0 10 0 0 ;
     0 0 0 1 0 ;
     0 0 0 0 10];
 R=10;
@@ -35,11 +35,11 @@ R=10;
 omega_n = 2;
 zeta = 0.7;
 
-s1 = -1.35 + 0.1i;
-s2 = -1.35 - 0.1i;
-s3 = -0.9 + 1.2i;
-s4 = -0.9 - 1.2i;
-s5 = -1.2;
+s1 = -1.4 + 0.8i;
+s2 = -1.4 - 0.8i;
+s3 = -1.4 + 0.8i;
+s4 = -1.4 - 0.8i;
+s5 = -2;
 
 % Diseñar el controlador por pole placement
 K_pp = place(A, B, [s1, s2, s3, s4, s5]);
@@ -51,6 +51,8 @@ K_lqr = lqr(A, B, Q, R);
 Acl = A-(B*K_lqr);
 Acpp = A-(B*K_pp);
 
+
+%% Simulacion
 % Definir las condiciones iniciales y la perturbación
 X0 = [10; 0; 0; 0; 1000];
 X_pert = X0 + [-1; 0; 0; 0.05; 0];
@@ -72,18 +74,18 @@ ylabel('Velocidad (m/s)')
 legend('Pole placement');
 
 
-% Tracking
+%% Tracking
 
-Ct= [1 0 0 0 0];
+Ct= [10 0 0 0 0];
 At=[A zeros(5,1);-Ct 0];
 Bt=[B;0 0];
-Qt=blkdiag(100,1,10,1,10,1);
-Rt=10;
+Qt=blkdiag(1,1,10,1,10,10);
+Rt=1;
 Jt=lqr(At,Bt,Qt,Rt);
-J1=Jt(1:5);
-J2=Jt(6);
+J1=Jt(:,1:5);
+J2=Jt(:,6);
 
-% Observabilidad
+%% Observabilidad
 AO=1.1*A;
 OB=obsv(AO,C);
 rank(OB)
@@ -93,6 +95,7 @@ PO=[-2.34543426890766 + 1.99584255582137i,...
     -10.3324443158795 + 10.3836668184825i,...
     -10.3324443158795 - 10.3836668184825i];
 L=place(A',C',PO);
+
 L=L'; 
 
 

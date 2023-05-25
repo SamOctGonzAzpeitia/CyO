@@ -1,52 +1,48 @@
-%% Optimizaci髇 a trav閟 del m閠odo del gradiente
-%Utilizamos m閠odos basados en el gradiente para realizar la optimizaci髇
+%% Optimizaci贸n a trav茅s del m茅todo del gradiente
+%Utilizamos m茅todos basados en el gradiente para realizar la optimizaci贸n
 clc
 clear
 
-%Numero de puntos en los que se evalua la funcion
-N = 100;
-%Definimos el punto m醩 alto de la pompa
+%Numero de puntos de discretizacion
+N = 50;
+%Definimos el punto m谩s alto de la pompa
 altura =1.2;
 %Volumen que queremos que tenga la pompa
 vol = 0.8;
-%Definimos en n鷐ero m醲imo de iteraciones y evaluaciones
+%Definimos en n煤mero m谩ximo de iteraciones y evaluaciones
 MaxEval = 100000000; MaxIter = 10000000;
 
 %Definimos las condiciones iniciales, es decir, los puntos en los que el
 y1 = 1; y2 = 1;
-%Elegimos la funci髇 de arranque F con la que va a trabajar el optimizador
-%Para ello basta con quitarle el %
-   % y0 = zeros(1,N);for i=1:N,y0(i) = rand;end %Puntos aleatorios
-   % y0 =linspace(y1,y2,N);%L韓ea a altura 1
-   % y0 = linspace(0,0,N);%Linea de ceros
  
 y0 =sin(linspace(pi,2*pi,N))+altura;    
 yLow = linspace(0,0,N);  yLow(1) = 1; yLow(end) = y2;
 yUp = linspace(y1,y2,N);
 y0 = altura*y0; yUp = altura*yUp; yLow = altura*yLow;
-%Ahora empieza la optimizaci髇
+%Ahora empieza la optimizaci贸n
+
 options = optimoptions('fmincon');
-%Elijo el algoritmo de optimizacion
-%Pueden ser interior-point ; sqp ; active-set
+%Selecci贸n de algoritmo interior point
 options = optimoptions(options,'Algorithm', 'interior-point');
-%Defino el resto de opciones necesarias para que funcione
+%Se definen el resto de opciones necesarias para que funcione
 options = optimoptions(options,'Display', 'final-detailed');
 options = optimoptions(options,'MaxFunctionEvaluations', MaxEval);
 options = optimoptions(options,'MaxIterations', MaxIter);
 options = optimoptions(options,'PlotFcn', { @optimplotx });
-%Defino las funciones a optimizar y sus valores iniciales
+%funciones a optimizar y sus valores iniciales
     tic
     [y,Areasol,exitflag,output,lambda,grad,hessian] = fmincon(@Area,y0,[],[],[],[],yLow,yUp,@(F)V(F,vol),options);
     tiempo = toc;
-%Ense駉 el n鷐ero de iteraciones    
+
+%Se muestran iteraciones y evaluaciones    
 Niteraciones = output.iterations;
 Nevaluaciones = output.funcCount;
 
 figure
 x = linspace(0,1,N);
 yAltura = linspace(altura,altura,N);
-%Mostramos la funci髇 encontrada
+%Grafica de funcion encontrada.
 plot(x,y)
 axis([0 1 0 altura+0.1])
-title([ 'Geometr韆 de la pompa. ','A = ' num2str(Areasol)]);
-xlabel('Separaci髇 entre aros'); ylabel('Altura relativa')
+title([ 'Geometr铆a de la pompa. ','A = ' num2str(Areasol)]);
+xlabel('Separaci贸n entre aros'); ylabel('Altura relativa')

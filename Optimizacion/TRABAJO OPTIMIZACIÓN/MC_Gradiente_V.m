@@ -4,11 +4,11 @@ clc
 clear
 
 %Numero de puntos en los que se evalua la funcion
-N = 50;
+N = 500;
 %Definimos el punto más alto de la pompa
 altura = 1.2;
 %Volumen que queremos que tenga la pompa
-vol = 0.35;
+vol = 0.8;
 %Definimos en número máximo de iteraciones y evaluaciones
 MaxEval = 1000000; MaxIter = 100000;
 

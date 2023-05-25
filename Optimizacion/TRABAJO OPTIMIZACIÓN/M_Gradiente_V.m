@@ -4,11 +4,11 @@ clc
 clear
 
 %Numero de puntos en los que se evalua la funcion
-N = 50;
+N = 100;
 %Definimos el punto más alto de la pompa
-altura = 1.2;
+altura =1.2;
 %Volumen que queremos que tenga la pompa
-vol = 0.35;
+vol = 0.8;
 %Definimos en número máximo de iteraciones y evaluaciones
 MaxEval = 1000000; MaxIter = 100000;
 
@@ -35,8 +35,8 @@ options = optimoptions(options,'MaxFunctionEvaluations', MaxEval);
 options = optimoptions(options,'MaxIterations', MaxIter);
 options = optimoptions(options,'PlotFcn', { @optimplotx });
 %Defino las funciones a optimizar y sus valores iniciales
-tic
-    [y,Asol,exitflag,output,lambda,grad,hessian] = fmincon(@A_compacto,y0,[],[],[],[],yLow,yUp,@(F)V(F,vol),options);
+    tic
+    [y,Areasol,exitflag,output,lambda,grad,hessian] = fmincon(@Area,y0,[],[],[],[],yLow,yUp,@(F)V(F,vol),options);
     tiempo = toc;
 %Enseño el número de iteraciones    
 Niteraciones = output.iterations;
@@ -48,5 +48,5 @@ yAltura = linspace(altura,altura,N);
 %Mostramos la función encontrada
 plot(x,y)
 axis([0 1 0 altura+0.1])
-title([ 'Geometría de la pompa. ','A = ' num2str(Asol)]);
+title([ 'Geometría de la pompa. ','A = ' num2str(Areasol)]);
 xlabel('Separación entre aros'); ylabel('Altura relativa')

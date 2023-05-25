@@ -37,7 +37,7 @@ Cons_V=[altura ; altura];
 
 %Introducimos las opciones que queramos dentro de la realización del
 %algoritmo genético que utilizamos con el optimtool de matlab
-options = optimoptions("ga");
+options = optimoptions('ga');
 
 %Poblacion inicial
 options = optimoptions(options,'InitialPopulationMatrix', InitialPopulationMatrix_Data);%Qué puntos cogen al principio
@@ -51,9 +51,8 @@ options = optimoptions(options,'PlotFcn', { @gaplotbestindiv });
 options = optimoptions(options,'Display', 'iter');
 
 nvars=N;
-
-    tic
-    [x,fval,exitflag,output,population,score] = ga(@Area,nvars,[],[], Cons_M, Cons_V,yLow,yUp,@(F)V(F,vol),[],options);
+tic
+    [x,fval,exitflag,output,population,score] = ga(@A_compacto,nvars,[],[], Cons_M, Cons_V,yLow,yUp,@(F)V(F,vol),[],options);
     tiempo = toc;
 %Se imprime el resultado en pantalla
 y=0:1/(N-1):1;
