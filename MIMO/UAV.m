@@ -74,16 +74,18 @@ ylabel('Velocidad (m/s)')
 legend('Pole placement');
 
 
+
 %% Tracking
 
 Ct= [10 0 0 0 0];
 At=[A zeros(5,1);-Ct 0];
 Bt=[B;0 0];
-Qt=blkdiag(1,1,10,1,10,10);
-Rt=1;
+Qt=blkdiag(10,1,10,1,10,1);
+Rt=10;
 Jt=lqr(At,Bt,Qt,Rt);
 J1=Jt(:,1:5);
 J2=Jt(:,6);
+
 
 %% Observabilidad
 AO=1.1*A;
